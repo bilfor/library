@@ -45,23 +45,49 @@ function displayBook() {
     newCard.appendChild(newAuthor);
     newCard.appendChild(newPages);
     newCard.appendChild(newRead);
+    
+    newCard.setAttribute('data',i);    
+
     booklist.appendChild(newCard);
   }
 }
 
+function formToBook() {
+  let data = document.getElementById('formData');
+
+  let title = data.elements[0].value; 
+  let author = data.elements[1].value;
+  let pages = data.elements[2].value;
+  let read = data.elements[3].checked; 
+
+  let newBook = new Book(title, author, pages, read);
+
+  return newBook;
+}
+
+function toggleRead(book) {
+  book.read = !book.read;
+}
+
 addToLibButton.addEventListener('click', function(event) {
-  //var newBook = formToBook();
-  //addBookToLibrary(newBook); 
+  let newBook = formToBook();
+  addBookToLibrary(newBook); 
   displayBook();
   //closeForm();
 });
  
 newBookButton.addEventListener('click', function(event) {
   //openForm(); 
-  let test = new Book("Ender's Game","Orson Scott Card","999",1);
-  addBookToLibrary(test);
 }); 
 
 clearLibButton.addEventListener('click', function(event) {
   clearLibrary();
+});
+
+removeBookButton.addEventListener('click', function(event) {
+  
+});
+
+toggleReadButton.addEventListener('click', function(event) {
+  toggleRead();
 });

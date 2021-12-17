@@ -40,3 +40,9 @@
   font-size: 20px;
   height: 10px;
 }
+
+form {
+  display: flex;
+  flex-direction: column; 
+  width: 200px;
+}
