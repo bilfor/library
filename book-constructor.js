@@ -1,9 +1,13 @@
 let myLibrary = [];
+let counter = 0;
 
 const newBookButton = document.querySelector('#newBookButton');
 const addToLibButton = document.querySelector('#addToLibButton');
 const clearLibButton = document.querySelector('#clearLibButton');
+
 const booklist = document.querySelector('#booklist');
+const nodeList = booklist.childNodes;
+
 
 function Book(title, author, pages, read) {
   this.title = title;
@@ -14,41 +18,53 @@ function Book(title, author, pages, read) {
 
 function addBookToLibrary(book) {
   myLibrary.push(book);
-} 
 
-function removeAllChildNodes(parent) {
-  while (parent.firstChild) {
-    parent.removeChild(parent.firstChild);
-  }
-}
+  const newCard = document.createElement('div');
+
+  const newTitle = document.createElement('p');
+  const newAuthor = document.createElement('p');
+  const newPages = document.createElement('p');
+  const newRead = document.createElement('p');
+
+  const newRemoveBookButton = document.createElement('button');
+  const newToggleReadButton = document.createElement('button');
+    
+  newTitle.textContent = book.title;
+  newAuthor.textContent = book.author;
+  newPages.textContent = book.pages;
+  newRead.textContent = book.read;
+    
+  newCard.appendChild(newTitle);
+  newCard.appendChild(newAuthor);
+  newCard.appendChild(newPages);
+  newCard.appendChild(newRead);
+
+  newCard.appendChild(newRemoveBookButton);
+  newCard.appendChild(newToggleReadButton);
+
+  newRemoveBookButton.textContent = 'remove book';
+  newToggleReadButton.textContent = 'toggle read';
+
+  newRemoveBookButton.addEventListener('click', function(event) {
+    newCard.remove();
+    myLibrary.splice(counter,1);
+  });
+
+  newToggleReadButton.addEventListener('click', function(event) {
+    book.read = !book.read; 
+    newRead.textContent = book.read;
+  });
+    
+  newCard.setAttribute('data',counter);    
+  counter++;
+
+  booklist.appendChild(newCard);
+} 
 
 function clearLibrary() {
   myLibrary = [];
-  removeAllChildNodes(booklist);
-}
-
-function displayBook() {
-  removeAllChildNodes(booklist);  
-  for(let i = 0; i < myLibrary.length; i++) {
-    const newCard = document.createElement('div');
-    const newTitle = document.createElement('p');
-    const newAuthor = document.createElement('p');
-    const newPages = document.createElement('p');
-    const newRead = document.createElement('p');
-    //newCard.className = "card";
-    newTitle.textContent = myLibrary[i].title;
-    newAuthor.textContent = myLibrary[i].author;
-    newPages.textContent = myLibrary[i].pages;
-    newRead.textContent = myLibrary[i].read;
-    
-    newCard.appendChild(newTitle);
-    newCard.appendChild(newAuthor);
-    newCard.appendChild(newPages);
-    newCard.appendChild(newRead);
-    
-    newCard.setAttribute('data',i);    
-
-    booklist.appendChild(newCard);
+  while (booklist.firstChild) {
+    booklist.removeChild(booklist.firstChild);
   }
 }
 
@@ -72,7 +88,6 @@ function toggleRead(book) {
 addToLibButton.addEventListener('click', function(event) {
   let newBook = formToBook();
   addBookToLibrary(newBook); 
-  displayBook();
   //closeForm();
 });
  
@@ -82,12 +97,4 @@ newBookButton.addEventListener('click', function(event) {
 
 clearLibButton.addEventListener('click', function(event) {
   clearLibrary();
-});
-
-removeBookButton.addEventListener('click', function(event) {
-  
-});
-
-toggleReadButton.addEventListener('click', function(event) {
-  toggleRead();
 });
